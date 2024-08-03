@@ -27,7 +27,7 @@
         }
 
         #fpsCounter {
-            position: fixed;
+            position: absolute;
             top: 10px;
             right: 10px;
             background: rgba(0, 0, 0, 0.5);
@@ -41,25 +41,26 @@
             border-radius: 4px;
             padding: 0.5em 0.5em 0;
             margin-left: 10px;
-            width: 120px;
+            margin-right: 10px;
+            /* max-width: 300px; */
         }
 
         summary {
             font-weight: bold;
             margin: -0.5em -0.5em 0;
             padding: 0.5em;
-            width: 1000px;
+            width: 100%;
         }
 
         details[open] {
             padding: 0.5em;
-            width: 1000px;
+            width: 100%;
         }
 
         details[open] summary {
             border-bottom: 1px solid #aaa;
             margin-bottom: 0.5em;
-            width: 1000px;  
+            width: 100%;
         }
 
         h1 {
@@ -94,7 +95,6 @@
             videoElement.controls = true;
             videoElement.loop = true;
             videoElement.muted = false;
-            videoElement.autoplay = true;
             videoContainer.appendChild(videoElement);
         }
 
@@ -105,6 +105,10 @@
 
         document.body.addEventListener('click', playVideos);
         document.body.addEventListener('touchstart', playVideos);
+        document.addEventListener('keydown', playVideos);
+
+        // Play videos on page load
+        window.addEventListener('load', playVideos);
 
         // FPS Counter
         let lastFrameTime = performance.now();
