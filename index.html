@@ -4,37 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autoplay Videos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        #videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
         video {
-            width: 100%;
-            margin-bottom: 10px;
+            width: 100px;
+            height: 100px;
+        }
+        #fpsCounter {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Click anywhere to autoplay videos</h1>
+    <h1>Click or touch anywhere to UOOOOPA!</h1>
     <div id="videos">
         <!-- Videos will be added here -->
     </div>
+    <div id="fpsCounter">FPS: 0</div>
 
     <script>
         const videoContainer = document.getElementById('videos');
-        const videoCount = 200;
+        const videoCount = 90;
         const videoSrc = 'UOOOOPA-1.webm';
 
         for (let i = 0; i < videoCount; i++) {
             const videoElement = document.createElement('video');
             videoElement.src = videoSrc;
-            videoElement.controls = false;
+            videoElement.controls = true;
             videoElement.loop = true;
-            videoElement.muted = false;  // Mute the video
+            videoElement.muted = false;
+            videoElement.autoplay = true;
             videoContainer.appendChild(videoElement);
         }
 
-        document.body.addEventListener('click', () => {
+        const playVideos = () => {
             const videos = document.querySelectorAll('video');
             videos.forEach(video => video.play());
-        });
+        };
+
+        document.body.addEventListener('click', playVideos);
+        document.body.addEventListener('touchstart', playVideos);
+
+        // FPS Counter
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+
+        const updateFPS = () => {
+            const now = performance.now();
+            frameCount++;
+            if (now >= lastFrameTime + 1000) {
+                const fps = frameCount;
+                document.getElementById('fpsCounter').innerText = `FPS: ${fps}`;
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+            requestAnimationFrame(updateFPS);
+        };
+
+        updateFPS();
     </script>
 </body>
 </html>
